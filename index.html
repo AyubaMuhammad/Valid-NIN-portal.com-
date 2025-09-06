@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>index</title>
+
+  <style>
+    :root{
+      --green:#0b8640;
+      --dark:#0b3f2a;
+      --muted:#666;
+      --card-bg:#fff;
+    }
+    body{
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      margin:24px;
+      background:#f3f6f8;
+      color:#111;
+    }
+    .wrap{ max-width:900px; margin:0 auto; }
+    header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+    header .brand{ display:flex; align-items:center; gap:12px; }
+   
+    header h1{font-size:18px;margin:0}
+    header p{margin:0;color:var(--muted);font-size:13px}
+
+    .actions{display:flex;gap:10px;align-items:center;margin-bottom:18px}
+    button{
+      background:var(--green);color:#fff;border:none;padding:10px 14px;border-radius:6px;cursor:pointer;
+      box-shadow:0 6px 18px rgba(11,134,64,0.12);
+    }
+    button.secondary{background:#fff;color:#111;border:1px solid #e1e5e9}
+    button:disabled{opacity:.6;cursor:not-allowed}
+
+    .slip{
+      background:var(--card-bg);
+      border-radius:8px;
+      padding:18px;
+      box-shadow:0 10px 30px rgba(20,30,40,0.06);
+      border:1px solid #e9eef2;
+      width:100%;
+    }
+
+    .slip .header{
+      display:flex; align-items:center; gap:16px;
+      border-bottom:6px solid var(--green);
+      padding-bottom:12px;margin-bottom:12px;
+    }
+    .slip .org-title{font-weight:700;font-size:16px}
+    .slip .org-sub{font-size:12px;color:var(--muted)}
+
+    .slip-grid{ display:grid; grid-template-columns: 1fr 220px; gap:16px; align-items:start; }
+    .info-grid{ display:grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap:8px 18px; }
+    .field{font-size:13px}
+    .label{color:var(--muted);font-size:11px;margin-bottom:4px}
+    .val{font-weight:600}
+
+    .photo-box{
+      width:200px; border:1px solid #e6eef2; border-radius:6px;
+      padding:8px; text-align:center; background:#fbfeff;
+    }
+    .photo-box img{width:100%;height:240px;object-fit:cover;border-radius:4px;border:1px solid #dfeef3}
+    .photo-placeholder{
+      width:100%;height:240px;display:flex;align-items:center;justify-content:center;
+      color:#9aa9af;background:#f6fbf9;border-radius:4px;border:1px dashed #dfeef3;font-size:13px;
+    }
+
+    .foot{
+      margin-top:14px; font-size:12px;color:var(--muted);
+      display:flex;justify-content:space-between;align-items:center; gap:12px;
+    }
+
+    @media print {
+      body { margin:0; }
+      header, .actions { display:none; }
+      .wrap{ max-width:100% }
+      .slip{ box-shadow:none; border:none; padding:12mm; }
+    }
+
+    @media (max-width:720px){
+      .slip-grid{ grid-template-columns: 1fr }
+      .photo-box{ width:100% }
+    }
+
+  .nin-slip {
+  border: 1px solid #000;
+  padding: 0px;
+  width: 1000px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  background: #fff;
+  margin-left: 150px;
+}
+
+.slip-header {
+  display: flex;
+  flex-direction: column; /* stack text and logo vertically */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+ 
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  
+
+}
+
+.slip-header h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: bold;
+}
+.slip-header p {
+  margin: 0;
+  font-size: 13px;
+}
+.slip-header h3 {
+  margin: 5px 0 0;
+  font-size: 15px;
+  color: green;
+}
+
+#slip-logo {
+  position: absolute; /* position logo absolutely */
+  right: 300px;       /* push logo to the far right */
+  top: 96%;
+  transform: translateY(-50%);  /* vertically center with text */
+}
+#slip-logo img {
+  height: 60px;
+}
+
+#slip-logos img {
+  position:absolute;
+  left: 200px;
+  top: 96%;
+  transform: translateY(-50%);
+}
+
+#slip-logos img {
+  height: 60px;
+}
+
+.slip-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+.slip-table td {
+  border: 1px solid #000;
+  padding: 5px;
+  vertical-align: top;
+}
+.slip-table strong {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+
+.slip-footer {
+  border-top: 1px solid #000;
+  padding-top: 5px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.contact-row {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+  font-size: 11px;
+}
+
+.slip-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.slip-table td {
+  border: 1px solid #333;
+  padding: 6px 10px;
+  vertical-align: top;
+}
+
+.slip-table strong {
+  font-size: 12px;
+  color: #555;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.photo-cell {
+  width: 300px;
+  text-align: center;
+  vertical-align: top;
+}
+
+/* Passport photo container (both slips use this rule) */
+.photo-box,
+#photoContainer,
+#photoPreview {
+  width: 140px;     /* make wider */
+  height: 180px;
+  overflow: hidden;
+ 
+}
+
+.photo-box img,
+#photoContainer img,
+#photoPreview img {
+  width: 140px;     /* make wider */
+  height: 180px;
+  object-fit: cover;
+  padding-right: 100px;
+ 
+}
+
+
+#photoContainer2,
+#photoPreview {
+  width: 150px;   /* adjust as you like */
+  height: 185px;
+  object-fit: cover;
+  margin-left: 80px;
+  margin-top: -93px;
+}
+
+
+.photo-placeholder {
+  color: #999;
+  font-size: 13px;
+  width: 100%;
+  
+}
+
+.address-box {
+  margin-top: 5px;
+  font-size: 12px;
+  float: left;
+}
+
+#ad {
+  font-size: 12px;
+  margin-bottom: 4px;
+  float: left;
+}
+.contact-row {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+  font-size: 11px;
+  text-align: center;
+  border-top: 1px solid #000;  /* 🔹 full horizontal line above icons */
+  padding-top: 8px;            /* 🔹 add space after line */
+}
+
+
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 200px;
+  padding: 0 12px;
+  border-right: 1px solid #000; /* vertical line */
+}
+
+.contact-item:last-child {
+  border-right: none; /* remove line after last item */
+}
+
+.digital {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 6px;
+}
+
+#clientAddress {
+  display: inline-block;
+  max-width: 100px; /* adjust as needed */
+  word-wrap: break-word;
+  text-align: left;
+}
+
+#downloadBtn {
+  background: #00eeff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#downloadBtn:hover {
+  background: #0a6f36;
+}
+#nimc {
+  width: 50px;
+  height: 20;
+}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo"><img id="nimc" src="nimc.png" alt="main logo"></img></div>
+        <div>
+          <h1>National Identity Management Commission</h1>
+          <p>National Identity Number (NIN) Slip  Client Preview</p>
+        </div>
+      </div>
+
+      <div style="text-align:right">
+        <p id="generatedAt" style="margin:0;color:#666;font-size:13px"></p>
+        <p style="margin:0;color:#999;font-size:12px">Client View</p>
+      </div>
+    </header>
+
+    <div class="actions">
+      <button id="downloadPdfBtn">Download as PDF</button>
+      <button id="printBtn" class="secondary">Print</button>
+      <button id="reloadBtn" class="secondary">Reload from storage</button>
+    </div>
+
+    <div id="slipRoot" class="slip">
+      <div class="header">
+        <div>
+          <div class="org-title">National Identity Management Commission</div>
+          <div class="org-sub">National Identity Number (NIN) Slip</div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <div style="font-size:12px;color:#fff;background:var(--green);padding:6px 10px;border-radius:6px;font-weight:700">OFFICIAL</div>
+        </div>
+      </div>
+
+      <div class="slip-grid">
+        <div>
+          <div><div class="label">Tracking ID</div><div id="displayTracking" class="val">—</div></div>
+          <div><div class="label">NIN</div><div id="displayNIN" class="val">—</div></div>
+
+          <div class="info-grid">
+            <div><div class="label">Surname</div><div id="displaySurname" class="field val">—</div></div>
+            <div><div class="label">First Name</div><div id="displayFirstName" class="field val">—</div></div>
+            <div><div class="label">Middle Name</div><div id="displayMiddleName" class="field val">—</div></div>
+            <div><div class="label">Gender</div><div id="displayGender" class="field val">—</div></div>
+            <div><div class="label">Date of Birth</div><div id="displayDOB" class="field val">—</div></div>
+            <div><div class="label">Phone</div><div id="displayPhone" class="field val">—</div></div>
+            <div style="grid-column:1/-1"><div class="label">Address</div><div id="displayAddress" class="field val">—</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="photo-box">
+            <div id="photoContainer"><div class="photo-placeholder">No photo uploaded</div></div>
+            <div style="margin-top:8px;font-size:12px;color:var(--muted)">Passport photo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="foot">
+        <div>Generated by: NIN Portal  Client Preview</div>
+        <div>This slip is a preview and not valid without official verification.</div>
+      </div>
+    </div>
+  </div>
+
+  <br><br><br>
+
+<div id="slipRoot2" class="nin-slip">
+
+  <!-- Header -->
+  <div class="slip-header">
+    <div>
+      <h2>National Identity Management System</h2>
+      <p>Federal Republic of Nigeria</p>
+      <h3>National Identification Number Slip (NINS)</h3>
+    </div>
+    <div id="slip-logo">
+      <img src="nimc.png" alt="NIMC Logo">
+    </div>
+    <div id="slip-logos">
+      <img src="coat of arm.png" alt="NIMC Logo">
+    </div>
+  </div>
+
+  <!-- Details Grid -->
+  <table class="slip-table">
+    <tr>
+      <td><strong>Tracking ID</strong><span id="clientTrackingId"></span></td>
+      <td><strong>Surname</strong><span id="clientSurname"></span></td>
+      <td rowspan="5" class="photo-cell">
+         <div class="address-box">
+          <strong id="ad">Address</strong><br>
+          <span id="clientAddress"></span>
+          </div>
+        <div id="photoContainer2">
+            <img id="photoPreview" src="" alt="Passport Photo"> 
+        </div>
+        
+       
+        </td>
+    </tr>
+    <tr>
+      <td><strong>NIN</strong><span id="clientNIN"></span></td>
+      <td><strong>First Name</strong><span id="clientFirstName"></span></td>
+    </tr>
+    <tr>
+      <td><strong></strong><span id=""></span></td>
+      <td><strong>Middle Name</strong><span id="clientMiddleName"></span></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong>Gender</strong><span id="clientGender"></span>
+    </td>
+    </tr>
+  </table>
+   <p>
+    <strong>Note: The National Identification Number (NIN) is your identity.</strong> It is confidential and may only be released for legitimate transactions.<br>
+    you will notified your National Identity Card is ready (for any enquiries please contact)
+   </p>
+
+  <!-- Footer Disclaimer -->
+ <div class="contact-row">
+  <div class="contact-item">
+    <img class="digital" src="cloud.png" alt="Email">
+    <div><strong>helpdesk@nimc.gov.ng</strong></div>
+  </div>
+  <div class="contact-item">
+    <img class="digital" src="explorer.png" alt="Website">
+    <div><strong>www.nimc.gov.ng</strong></div>
+  </div>
+  <div class="contact-item">
+    <img class="digital" src="phone.png" alt="Phone">
+    <div><strong>0700-CALL-NIMC</strong><br>(0700-2255-6462)</div>
+  </div>
+  <div class="contact-item">
+    <img class="digital" src="R.png" alt="Address">
+    <div>
+      <strong>National Identity Management Commission</strong><br>
+      11 Sokoto Crescent, Off Dalaba Street,Zone 5 Wuse, Abuja Nigeria
+    </div>
+  </div>
+</div>
+
+  <!-- dependencies -->
+   <!-- Load html2canvas library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<!-- Load jsPDF library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- Your script that uses html2canvas -->
+<script src="client-slip.js"></script>
+
+ <script>
+(function () {
+  const el = {
+    // FIRST slip (source)
+    tracking: document.getElementById("displayTracking"),
+    nin: document.getElementById("displayNIN"),
+    surname: document.getElementById("displaySurname"),
+    firstName: document.getElementById("displayFirstName"),
+    middleName: document.getElementById("displayMiddleName"),
+    gender: document.getElementById("displayGender"),
+    dob: document.getElementById("displayDOB"),
+    address: document.getElementById("displayAddress"),
+    phone: document.getElementById("displayPhone"),
+    photoContainer: document.getElementById("photoContainer"),
+
+    // Misc
+    generatedAt: document.getElementById("generatedAt"),
+    slipRoot: document.getElementById("slipRoot"),
+    slipRoot2: document.getElementById("slipRoot2"),
+
+    // Buttons
+    downloadPdfBtn: document.getElementById("downloadPdfBtn"), // first slip
+    downloadBtn: document.getElementById("downloadBtn"),       // second slip
+    printBtn: document.getElementById("printBtn"),
+    reloadBtn: document.getElementById("reloadBtn"),
+  };
+
+  function showPlaceholderPhoto() {
+    if (!el.photoContainer) return;
+    el.photoContainer.innerHTML =
+      '<div class="photo-placeholder">No photo uploaded</div>';
+  }
+
+  // Copy FIRST slip → SECOND slip
+  function syncSlips() {
+    const mapping = {
+      displayTracking: "clientTrackingId",
+      displayNIN: "clientNIN",
+      displaySurname: "clientSurname",
+      displayFirstName: "clientFirstName",
+      displayMiddleName: "clientMiddleName",
+      displayGender: "clientGender",   // ✅ fixed (was clinentGender)
+      // displayDOB: "clientDOB",       // 🚫 excluded (you said no date)
+      displayAddress: "clientAddress",
+      // 🚫 no phone
+    };
+
+    for (const [srcId, dstId] of Object.entries(mapping)) {
+      const src = document.getElementById(srcId);
+      const dst = document.getElementById(dstId);
+      if (src && dst) dst.textContent = src.textContent || "";
+    }
+
+    // Hide DOB cell on slip 2
+    const dobSpan = document.getElementById("clientDOB");
+    if (dobSpan) {
+      const td = dobSpan.closest("td");
+      if (td) td.style.display = "none";
+    }
+
+    // Copy passport photo
+    const photo1 = el.photoContainer?.querySelector("img");
+    const photo2 = document.getElementById("photoPreview");
+    if (photo2) {
+      if (photo1 && photo1.src) {
+        photo2.src = photo1.src;
+        photo2.removeAttribute("alt");
+      } else {
+        photo2.removeAttribute("src");
+        photo2.alt = "No photo uploaded";
+      }
+    }
+  }
+
+  // Load from IndexedDB → fill FIRST slip
+  function loadFromStorage() {
+    const request = indexedDB.open("NIN_DB", 1);
+
+    request.onsuccess = function (event) {
+      const db = event.target.result;
+      const tx = db.transaction("clientData", "readonly");
+      const store = tx.objectStore("clientData");
+
+      const getReq = store.get("clientInfo");
+      getReq.onsuccess = function (e) {
+        const data = e.target.result;
+        if (!data) {
+          if (el.generatedAt) el.generatedAt.textContent = "No saved client data";
+          // Still try to reflect placeholders so slip 2 isn’t empty
+          syncSlips();
+          return;
+        }
+
+        el.tracking.textContent   = data.trackingId || "—";
+        el.nin.textContent        = data.nin || "—";
+        el.surname.textContent    = data.surname || "—";
+        el.firstName.textContent  = data.firstName || "—";
+        el.middleName.textContent = data.middleName || "—";
+        el.gender.textContent     = data.gender || "—";
+        el.dob.textContent        = data.dob || "—";
+        el.address.textContent    = data.address || "—";
+        el.phone.textContent      = data.phone || "—";
+
+        // Reflect text immediately (don’t wait for photo)
+        syncSlips();
+
+        // Then try to load photo and reflect again
+        const getPhotoReq = store.get("passportPhoto");
+        getPhotoReq.onsuccess = function (ev) {
+          const photoBlob = ev.target.result;
+          if (photoBlob) {
+            const img = document.createElement("img");
+            img.src = URL.createObjectURL(photoBlob);
+            img.alt = "Passport photo";
+            el.photoContainer.innerHTML = "";
+            el.photoContainer.appendChild(img);
+          } else {
+            showPlaceholderPhoto();
+          }
+          // Reflect once more after photo arrives
+          syncSlips();
+        };
+      };
+    };
+
+    request.onerror = function () {
+      if (el.generatedAt) el.generatedAt.textContent = "Error opening database";
+      // Still try to sync so at least placeholders show up
+      syncSlips();
+    };
+  }
+
+  // Create a nicely scaled PDF from a node
+  async function downloadAsPDF(targetEl, filename) {
+    const slipElement = document.getElementById("slipRoot2"); // second slip
+    const canvas = await html2canvas(slipElement, { scale: 2 });
+
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF("p", "pt", "a4");
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const margin = 20;
+
+    // Fit the image within margins
+    let imgWidth = pageWidth - margin * 2;
+    let imgHeight = (canvas.height * imgWidth) / canvas.width;
+    if (imgHeight > pageHeight - margin * 2) {
+      imgHeight = pageHeight - margin * 2;
+      imgWidth = (canvas.width * imgHeight) / canvas.height;
+    }
+
+    // Center it on the page
+    const x = (pageWidth - imgWidth) / 2;
+    const y = (pageHeight - imgHeight) / 2;
+
+    pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+    pdf.save(filename);
+  }
+
+  // Buttons
+  el.downloadPdfBtn?.addEventListener("click", () =>
+    downloadAsPDF(el.slipRoot, "NIN-Slip-2.pdf")
+  );
+  el.downloadBtn?.addEventListener("click", () =>
+    downloadAsPDF(el.slipRoot2, "NIN-Slip-2.pdf")
+  );
+ el.printBtn.addEventListener("click", async () => {
+  const slipElement = document.getElementById("slipRoot2");
+  const canvas = await html2canvas(slipElement, { scale: 2 });
+  const imgData = canvas.toDataURL("image/png");
+
+  const printWindow = window.open("", "_blank");
+  printWindow.document.write(`<img src="${imgData}" style="width:100%">`);
+  printWindow.document.close();
+  printWindow.print();
+});
+
+  el.reloadBtn?.addEventListener("click", loadFromStorage);
+
+  // Init
+  loadFromStorage();
+})();
+</script>
+
+
+</body>
+</html>

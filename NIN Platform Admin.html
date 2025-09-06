@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NIN Platform Admin — Rewritten</title>
+  <style>
+    :root{ --accent:#0078D4; --accent-dark:#005fa3; --card:#fff; --bg:#f9f9f9 }
+    *{box-sizing:border-box}
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 24px;
+      background:var(--bg);
+      color:#222;
+    }
+    h1{display:flex;justify-content:space-between;align-items:center}
+    .section{background:var(--card);padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.05);margin-bottom:20px}
+    label{display:block;margin-top:10px;font-weight:600}
+    input[type=text], input[type=date], input[type=file], select, textarea{width:100%;padding:8px;border:1px solid #d1d1d1;border-radius:6px;margin-top:6px}
+    textarea{resize:vertical}
+    .photo-preview{margin-top:10px;max-width:150px;border-radius:6px;border:1px solid #ddd}
+    .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .actions{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+    button{background:var(--accent);color:#fff;padding:10px 14px;border:none;border-radius:6px;cursor:pointer}
+    button.secondary{background:#e5e7eb;color:#111}
+    button:disabled{opacity:.6;cursor:not-allowed}
+    .muted{color:#666;font-size:13px;margin-top:6px}
+    .small{font-size:12px;color:#555}
+  </style>
+</head>
+<body>
+  <h1><span>NIN Platform</span><small class="small">Admin</small></h1>
+
+  <div class="section" aria-labelledby="client-info">
+    <h2 id="client-info">Client Information</h2>
+    <div class="row">
+      <div>
+        <label for="clientTrackingId">Tracking ID</label>
+        <input id="clientTrackingId" type="text" value="H5YHN7H00092773" readonly />
+      </div>
+      <div>
+        <label for="clientNIN">NIN</label>
+        <input id="clientNIN" type="text" value="32182373723" readonly />
+      </div>
+      <div>
+        <label for="clientSurname">Surname</label>
+        <input id="clientSurname" type="text" value="ATUMUREWA" readonly />
+      </div>
+      <div>
+        <label for="clientFirstName">First Name</label>
+        <input id="clientFirstName" type="text" value="SHILE" readonly />
+      </div>
+      <div>
+        <label for="clientMiddleName">Middle Name</label>
+        <input id="clientMiddleName" type="text" value="CHUKWUMA" readonly />
+      </div>
+      <div>
+        <label for="clientGender">Gender</label>
+        <input id="clientGender" type="text" value="M" readonly />
+      </div>
+      <div>
+        <label for="clientDOB">Date of Birth</label>
+        <input id="clientDOB" type="text" value="06/08/2018" readonly />
+      </div>
+      <div>
+        <label for="clientAddress">Address</label>
+        <input id="clientAddress" type="text" value="47, Harmony Avenue, KETU ALAPERE, LAGOS" readonly />
+      </div>
+      <div>
+        <label for="clientPhone">Phone Number</label>
+        <input id="clientPhone" type="text" value="07048144453" readonly />
+      </div>
+      <div>
+        <label for="passportInput">Passport Photo</label>
+        <input id="passportInput" type="file" accept="image/*" />
+        <img id="photoPreview" class="photo-preview" src="" alt="Passport preview" />
+        <div class="muted">Note: photo is saved to local browser storage (small files only).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" aria-labelledby="corrections">
+    <h2 id="corrections">Corrections</h2>
+
+    <div class="row">
+      <div>
+        <label for="correctTracking">Tracking ID</label>
+        <input id="correctTracking" type="text" placeholder="Enter correct Tracking ID" />
+      </div>
+
+      <div>
+        <label for="correctNIN">NIN</label>
+        <input id="correctNIN" type="text" placeholder="Enter correct NIN" />
+      </div>
+
+      <div>
+        <label for="correctSurname">Surname</label>
+        <input id="correctSurname" type="text" placeholder="Enter corrected surname" />
+      </div>
+
+      <div>
+        <label for="correctFirstName">First Name</label>
+        <input id="correctFirstName" type="text" placeholder="Enter corrected first name" />
+      </div>
+
+      <div>
+        <label for="correctMiddleName">Middle Name</label>
+        <input id="correctMiddleName" type="text" placeholder="Enter corrected middle name" />
+      </div>
+
+      <div>
+        <label for="correctGender">Gender</label>
+        <select id="correctGender">
+          <option value="">-- Select gender --</option>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="correctDOB">Date of Birth</label>
+        <input id="correctDOB" type="date" />
+      </div>
+
+      <div>
+        <label for="correctAddress">Address</label>
+        <textarea id="correctAddress" rows="2" placeholder="Enter corrected address"></textarea>
+      </div>
+
+      <div>
+        <label for="correctPhone">Phone Number</label>
+        <input id="correctPhone" type="text" placeholder="Enter corrected phone number" />
+      </div>
+
+      <div>
+        <label for="correctPassport">Replace Passport Photo</label>
+        <input id="correctPassport" type="file" accept="image/*" />
+        <div class="muted">If you upload a new photo here and save, it will replace the displayed passport photo.</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="btnSave">Save Corrections</button>
+      <button id="btnReset" class="secondary">Reset Correction Fields</button>
+      <button id="btnClearLocal" class="secondary">Clear Saved Local Data</button>
+    </div>
+  </div>
+<script>
+  const DB_NAME = "NIN_DB";
+  const DB_VERSION = 1;
+  const STORE_NAME = "clientData";
+
+  let db;
+
+  // ========= DB INIT =========
+  function initDB() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+      request.onupgradeneeded = (event) => {
+        db = event.target.result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          db.createObjectStore(STORE_NAME);
+        }
+      };
+
+      request.onsuccess = (event) => {
+        db = event.target.result;
+        resolve(db);
+      };
+
+      request.onerror = (event) => {
+        reject("DB open error: " + event.target.errorCode);
+      };
+    });
+  }
+
+  function saveToDB(key, value) {
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, "readwrite");
+      tx.objectStore(STORE_NAME).put(value, key);
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = (e) => reject(e);
+    });
+  }
+
+  function getFromDB(key) {
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, "readonly");
+      const req = tx.objectStore(STORE_NAME).get(key);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  function clearDB() {
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, "readwrite");
+      tx.objectStore(STORE_NAME).clear();
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = (e) => reject(e);
+    });
+  }
+
+  // ========= HELPERS =========
+  function safeTrim(v) { return (v || '').toString().trim(); }
+
+  function dmyToIso(dmy) {
+    if (!dmy) return '';
+    const s = dmy.replace(/\s+/g, '').replace(/-/g, '/');
+    const parts = s.split('/');
+    if (parts.length !== 3) return '';
+    const [d, m, y] = parts;
+    if (d.length === 0 || m.length === 0 || y.length !== 4) return '';
+    return `${y.padStart(4, '0')}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+  }
+
+  function isoToDmy(iso) {
+    if (!iso) return '';
+    const parts = iso.split('-');
+    if (parts.length !== 3) return '';
+    const [y, m, d] = parts;
+    return `${d.padStart(2, '0')}/${m.padStart(2, '0')}/${y}`;
+  }
+
+  // ========= IMAGE PREVIEW =========
+  async function previewFileAndMaybeSave(fileInput, previewImgEl, saveToDb) {
+    const file = fileInput && fileInput.files && fileInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async function (e) {
+      previewImgEl.src = e.target.result;
+
+      if (saveToDb) {
+        try {
+          await saveToDB("passportPhoto", file); // store raw Blob
+        } catch (err) {
+          console.warn("Error saving photo:", err);
+          alert("Could not save passport photo.");
+        }
+      }
+    };
+    reader.readAsDataURL(file); // preview only
+  }
+
+  // ========= CLIENT INFO =========
+  function updateClientInfoDisplay(data) {
+    const mapping = {
+      trackingId: 'clientTrackingId',
+      nin: 'clientNIN',
+      surname: 'clientSurname',
+      firstName: 'clientFirstName',
+      middleName: 'clientMiddleName',
+      gender: 'clientGender',
+      dob: 'clientDOB',
+      address: 'clientAddress',
+      phone: 'clientPhone'
+    };
+    Object.keys(mapping).forEach(key => {
+      if (data && safeTrim(data[key]) !== '') {
+        document.getElementById(mapping[key]).value = data[key];
+      }
+    });
+  }
+
+  async function loadSavedData() {
+    try {
+      const obj = await getFromDB("clientInfo");
+      if (obj) updateClientInfoDisplay(obj);
+
+      const photoBlob = await getFromDB("passportPhoto");
+      if (photoBlob) {
+        const url = URL.createObjectURL(photoBlob);
+        document.getElementById("photoPreview").src = url;
+      }
+    } catch (err) {
+      console.warn("Error loading saved data:", err);
+    }
+  }
+
+  function prefillCorrections() {
+    document.getElementById('correctTracking').value = document.getElementById('clientTrackingId').value || '';
+    document.getElementById('correctNIN').value = document.getElementById('clientNIN').value || '';
+    document.getElementById('correctSurname').value = document.getElementById('clientSurname').value || '';
+    document.getElementById('correctFirstName').value = document.getElementById('clientFirstName').value || '';
+    document.getElementById('correctMiddleName').value = document.getElementById('clientMiddleName').value || '';
+    document.getElementById('correctGender').value = document.getElementById('clientGender').value || '';
+    const dobText = document.getElementById('clientDOB').value || '';
+    document.getElementById('correctDOB').value = dmyToIso(dobText) || '';
+    document.getElementById('correctAddress').value = document.getElementById('clientAddress').value || '';
+    document.getElementById('correctPhone').value = document.getElementById('clientPhone').value || '';
+  }
+
+  async function saveCorrections() {
+    const data = {
+      trackingId: safeTrim(document.getElementById('correctTracking').value),
+      nin: safeTrim(document.getElementById('correctNIN').value),
+      surname: safeTrim(document.getElementById('correctSurname').value),
+      firstName: safeTrim(document.getElementById('correctFirstName').value),
+      middleName: safeTrim(document.getElementById('correctMiddleName').value),
+      gender: safeTrim(document.getElementById('correctGender').value),
+      dob: (function (v) { return v ? isoToDmy(v) : ''; })(safeTrim(document.getElementById('correctDOB').value)),
+      address: safeTrim(document.getElementById('correctAddress').value),
+      phone: safeTrim(document.getElementById('correctPhone').value)
+    };
+
+    const current = {
+      trackingId: document.getElementById('clientTrackingId').value,
+      nin: document.getElementById('clientNIN').value,
+      surname: document.getElementById('clientSurname').value,
+      firstName: document.getElementById('clientFirstName').value,
+      middleName: document.getElementById('clientMiddleName').value,
+      gender: document.getElementById('clientGender').value,
+      dob: document.getElementById('clientDOB').value,
+      address: document.getElementById('clientAddress').value,
+      phone: document.getElementById('clientPhone').value
+    };
+
+    const merged = Object.assign({}, current);
+    Object.keys(data).forEach(k => { if (data[k] && data[k] !== '') merged[k] = data[k]; });
+
+    if (merged.phone) merged.phone = merged.phone.replace(/\s+/g, '');
+
+    try {
+      await saveToDB("clientInfo", merged);
+
+      const replacementFileInput = document.getElementById('correctPassport');
+      if (replacementFileInput && replacementFileInput.files && replacementFileInput.files[0]) {
+        await previewFileAndMaybeSave(replacementFileInput, document.getElementById('photoPreview'), true);
+      }
+
+      updateClientInfoDisplay(merged);
+      alert('Client bio-data updated and saved locally.');
+      prefillCorrections();
+    } catch (err) {
+      console.warn("Could not save client data to IndexedDB", err);
+      alert("Unable to save data to browser storage.");
+    }
+  }
+
+  function resetCorrections() { prefillCorrections(); }
+
+  async function clearLocalData() {
+    if (!confirm('Clear saved client data and photo?')) return;
+    await clearDB();
+    location.reload();
+  }
+
+  // ========= INIT =========
+  document.addEventListener('DOMContentLoaded', async function () {
+    await initDB();
+    await loadSavedData();
+    prefillCorrections();
+
+    const passportInput = document.getElementById('passportInput');
+    passportInput.addEventListener('change', function (e) {
+      previewFileAndMaybeSave(passportInput, document.getElementById('photoPreview'), true);
+    });
+
+    const corrPassport = document.getElementById('correctPassport');
+    corrPassport.addEventListener('change', function () {
+      previewFileAndMaybeSave(corrPassport, document.getElementById('photoPreview'), true);
+    });
+
+    document.getElementById('btnSave').addEventListener('click', saveCorrections);
+    document.getElementById('btnReset').addEventListener('click', resetCorrections);
+    document.getElementById('btnClearLocal').addEventListener('click', clearLocalData);
+  });
+</script>
+
+</body>
+</html>
