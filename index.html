@@ -302,6 +302,24 @@
   height: 20;
 }
 
+/* Second slip hidden by default */
+#slipRoot2 {
+  display: none;
+}
+
+/* Show only when printing */
+@media print {
+  #slipRoot2 {
+    display: block;
+  }
+
+  /* Optional: hide the first slip when printing */
+  .wrap {
+    display: none;
+  }
+}
+
+
   </style>
 </head>
 <body>
@@ -498,8 +516,8 @@
       displaySurname: "clientSurname",
       displayFirstName: "clientFirstName",
       displayMiddleName: "clientMiddleName",
-      displayGender: "clientGender",   // ✅ fixed (was clinentGender)
-      // displayDOB: "clientDOB",       // 🚫 excluded (you said no date)
+      displayGender: "clientGender", // ✅ fixed typo
+      // displayDOB: "clientDOB",    // 🚫 excluded (you said no date)
       displayAddress: "clientAddress",
       // 🚫 no phone
     };
@@ -545,8 +563,7 @@
         const data = e.target.result;
         if (!data) {
           if (el.generatedAt) el.generatedAt.textContent = "No saved client data";
-          // Still try to reflect placeholders so slip 2 isn’t empty
-          syncSlips();
+          syncSlips(); // reflect placeholders
           return;
         }
 
@@ -560,10 +577,9 @@
         el.address.textContent    = data.address || "—";
         el.phone.textContent      = data.phone || "—";
 
-        // Reflect text immediately (don’t wait for photo)
-        syncSlips();
+        syncSlips(); // reflect immediately
 
-        // Then try to load photo and reflect again
+        // Load photo separately
         const getPhotoReq = store.get("passportPhoto");
         getPhotoReq.onsuccess = function (ev) {
           const photoBlob = ev.target.result;
@@ -576,24 +592,22 @@
           } else {
             showPlaceholderPhoto();
           }
-          // Reflect once more after photo arrives
-          syncSlips();
+          syncSlips(); // reflect again after photo
         };
       };
     };
 
     request.onerror = function () {
       if (el.generatedAt) el.generatedAt.textContent = "Error opening database";
-      // Still try to sync so at least placeholders show up
-      syncSlips();
+      syncSlips(); // still sync placeholders
     };
   }
 
   // Create a nicely scaled PDF from a node
   async function downloadAsPDF(targetEl, filename) {
-    const slipElement = document.getElementById("slipRoot2"); // second slip
+    const slipElement = targetEl;
     const canvas = await html2canvas(slipElement, { scale: 2 });
-
+    const imgData = canvas.toDataURL("image/png"); // ✅ FIXED (was missing)
 
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF("p", "pt", "a4");
@@ -602,7 +616,6 @@
     const pageHeight = pdf.internal.pageSize.getHeight();
     const margin = 20;
 
-    // Fit the image within margins
     let imgWidth = pageWidth - margin * 2;
     let imgHeight = (canvas.height * imgWidth) / canvas.width;
     if (imgHeight > pageHeight - margin * 2) {
@@ -610,7 +623,6 @@
       imgWidth = (canvas.width * imgHeight) / canvas.height;
     }
 
-    // Center it on the page
     const x = (pageWidth - imgWidth) / 2;
     const y = (pageHeight - imgHeight) / 2;
 
@@ -620,21 +632,16 @@
 
   // Buttons
   el.downloadPdfBtn?.addEventListener("click", () =>
-    downloadAsPDF(el.slipRoot, "NIN-Slip-2.pdf")
+    downloadAsPDF(el.slipRoot, "NIN-Slip.pdf") // first slip
   );
-  el.downloadBtn?.addEventListener("click", () =>
-    downloadAsPDF(el.slipRoot2, "NIN-Slip-2.pdf")
-  );
- el.printBtn.addEventListener("click", async () => {
-  const slipElement = document.getElementById("slipRoot2");
-  const canvas = await html2canvas(slipElement, { scale: 2 });
-  const imgData = canvas.toDataURL("image/png");
 
-  const printWindow = window.open("", "_blank");
-  printWindow.document.write(`<img src="${imgData}" style="width:100%">`);
-  printWindow.document.close();
-  printWindow.print();
-});
+  el.downloadBtn?.addEventListener("click", () =>
+    downloadAsPDF(el.slipRoot2, "NIN-Slip-2.pdf") // second slip
+  );
+
+  el.printBtn.addEventListener("click", () => {
+    window.print(); // second slip will appear only during print (CSS handles it)
+  });
 
   el.reloadBtn?.addEventListener("click", loadFromStorage);
 
@@ -642,6 +649,7 @@
   loadFromStorage();
 })();
 </script>
+
 
 
 </body>
